@@ -19,18 +19,6 @@
   
 
 
-    4
-    Wins by Knockout
-  
-    10
-    Wins by Submission
-  
-    
-    
-  
-    
-    
-  
 
     5
     Wins by Knockout
@@ -64,24 +52,6 @@
     
   
 
-    3
-    Wins by Knockout
-  
-    7
-    Wins by Submission
-  
-    10
-    Wins by Decision
-  
-    
-    
-  
-    
-    
-  
-    
-    
-  
 
     9
     Fight Win Streak
@@ -120,6 +90,7 @@
     
     
   
+
 
 
     6
