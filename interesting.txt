@@ -1,0 +1,142 @@
+
+    2
+    Fight Win Streak
+  
+    8
+    Wins by Knockout
+  
+    4
+    Wins by Submission
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+
+
+    4
+    Wins by Knockout
+  
+    10
+    Wins by Submission
+  
+    
+    
+  
+    
+    
+  
+
+    5
+    Wins by Knockout
+  
+    0
+    Wins by Submission
+  
+    0
+    Wins by Decision
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+
+    17
+    Fight Win Streak
+  
+    13
+    Wins by Knockout
+  
+    
+    
+  
+    
+    
+  
+
+    3
+    Wins by Knockout
+  
+    7
+    Wins by Submission
+  
+    10
+    Wins by Decision
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+
+    9
+    Fight Win Streak
+  
+    9
+    Wins by Knockout
+  
+    2
+    Wins by Submission
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+
+    7
+    Wins by Knockout
+  
+    5
+    Wins by Submission
+  
+    5
+    Wins by Decision
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+
+
+    6
+    Wins by Knockout
+  
+    6
+    Wins by Submission
+  
+    2
+    Wins by Decision
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
