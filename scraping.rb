@@ -1,23 +1,23 @@
 require 'httparty'
 require 'nokogiri'
+require 'pry'
 
 PREFIX = 'https://www.ufc.com'
 
-puts "beginning"
 doc = Nokogiri::HTML.parse(HTTParty.get(PREFIX + '/athletes/all'))
-puts "parsed part 1"
-elements = doc.xpath('//*[@class="l-flex__item"]//a[@class="')
-puts "identified part 1"
+# would it be possible to search for one node and then do multiple child searches from there?
+a_tags = doc.xpath('//*[@class="l-flex__item"]//a[@class="e-button--black "]')
+names  = doc.xpath('//div[@class="c-listing-athlete-flipcard__front"]//span[@class="c-listing-athlete__name"]')
 
-athletes = elements.map do |e|
-	puts PREFIX + e[:href]
-	Nokogiri::HTML.parse(HTTParty.get(PREFIX + e[:href]))
+names.each do |n|
+	puts n.text.strip()
 end
 
-puts "parsed part 2"
+# athletes = elements.map do |e|
+# 	Nokogiri::HTML.parse(HTTParty.get(PREFIX + e[:href]))
+# end
 
-file = File.open('interesting.txt', 'w')
-athletes.each { |a| file.puts a.xpath('//*[@class="c-record__promoted"][1]').text }
-puts "identified part 2"
+# file = File.open('interesting.txt', 'w')
+# athletes.each { |a| file.puts a.xpath('//*[@class="c-record__promoted"][1]').text }
 
-file.close
+# file.close
