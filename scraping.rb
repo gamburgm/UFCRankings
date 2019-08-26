@@ -1,19 +1,23 @@
 require 'httparty'
 require 'nokogiri'
 
-doc = Nokogiri::HTML.parse(HTTParty.get('https://www.ufc.com/athletes/all'))
+PREFIX = 'https://www.ufc.com'
 
-elements = doc.xpath('//*[@class="l-flex__item"]/div/div/div/div/div/a')
-puts "we made it here"
+puts "beginning"
+doc = Nokogiri::HTML.parse(HTTParty.get(PREFIX + '/athletes/all'))
+puts "parsed part 1"
+elements = doc.xpath('//*[@class="l-flex__item"]//a[@class="')
+puts "identified part 1"
 
-prefix = 'https://www.ufc.com'
+athletes = elements.map do |e|
+	puts PREFIX + e[:href]
+	Nokogiri::HTML.parse(HTTParty.get(PREFIX + e[:href]))
+end
 
-athletes = (0..10).map { |num| Nokogiri::HTML.parse(HTTParty.get(prefix + elements[num][:href]))  }
-
-athletes.each_with_index { |a, i| puts i if a == nil }
+puts "parsed part 2"
 
 file = File.open('interesting.txt', 'w')
-
 athletes.each { |a| file.puts a.xpath('//*[@class="c-record__promoted"][1]').text }
+puts "identified part 2"
 
 file.close
