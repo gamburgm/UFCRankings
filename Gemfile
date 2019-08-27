@@ -4,4 +4,5 @@ source "https://rubygems.org"
 
 gem 'nokogiri', '~> 1.10'
 gem 'httparty', '~> 0.17.0'
-gem 'pry',		'~> 0.12.2'
+gem 'pry',		  '~> 0.12.2'
+gem 'capybara', '~> 2.7'
