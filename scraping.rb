@@ -37,6 +37,23 @@ class UFCScraper
 	  puts k.text.strip + ' => ' + v[:href]
     end
   end
+
+  def scrape_athlete(href)
+    visit href
+
+    begin
+      while true do
+        find(:xpath, '//a[@rel="next"]').click
+        sleep 2
+      end
+    rescue
+    end
+
+    doc = Nokogiri::HTML.parse(page.source)
+    fights = doc.xpath('//*[@class="c-card-event--athlete-results__headline"]')
+    fights.each { |f| puts f.text }
+
+  end
 end
 
-UFCScraper.new.scrape
+UFCScraper.new.scrape_athlete('/athlete/israel-adesanya')
