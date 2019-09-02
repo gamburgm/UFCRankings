@@ -34,7 +34,7 @@ class UFCScraper
     results = names.zip(a_tags).to_h
 
     results.each do |k, v|
-	  puts k.text.strip + ' => ' + v[:href]
+      scrape_athlete(v[:href])
     end
   end
 
@@ -56,4 +56,4 @@ class UFCScraper
   end
 end
 
-UFCScraper.new.scrape_athlete('/athlete/israel-adesanya')
+UFCScraper.new.scrape
