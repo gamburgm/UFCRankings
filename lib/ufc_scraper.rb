@@ -13,15 +13,8 @@ class UFCScraper
 
   def scrape
     visit '/athletes/all'
-    
-    begin
-      while true do
-        find(:xpath, '//a[@rel="next"]').click
-        # manual sleep: problem when next button appears while more profiles getting uploaded
-        sleep 2
-      end
-    rescue
-    end
+
+    iterate_button('//a[@rel="next"]')
 
     doc = Nokogiri::HTML.parse(page.source)
     a_tags = doc.xpath('//*[@class="l-flex__item"]//a[@class="e-button--black "]')
@@ -36,17 +29,22 @@ class UFCScraper
   def scrape_athlete(href)
     visit href
 
-    begin
-      while true do
-        find(:xpath, '//a[@rel="next"]').click
-        sleep 2
-      end
-    rescue
-    end
+    iterate_button('//a[@rel="next"]')
 
     doc = Nokogiri::HTML.parse(page.source)
     fights = doc.xpath('//*[@class="c-card-event--athlete-results__headline"]')
     fights.each { |f| puts f.text }
+  end
 
+  private
+
+  def iterate_button(xpath)
+    begin
+      while true do
+        find(:xpath, xpath).click
+        sleep 2
+      end
+    rescue
+    end
   end
 end

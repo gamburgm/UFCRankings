@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  first_name: MyString
+  last_name: MyString
+  nickname: MyString
+  debut: 2019-09-02
+  wins: 1
+  losses: 1
+  draws: 1
+  active: false
+  age: 1
+  height_ft: 1
+  height_in: 1
+  reach_ft: 1
+  reach_in: 1
+
+two:
+  first_name: MyString
+  last_name: MyString
+  nickname: MyString
+  debut: 2019-09-02
+  wins: 1
+  losses: 1
+  draws: 1
+  active: false
+  age: 1
+  height_ft: 1
+  height_in: 1
+  reach_ft: 1
+  reach_in: 1
