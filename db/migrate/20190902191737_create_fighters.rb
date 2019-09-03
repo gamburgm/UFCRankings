@@ -12,6 +12,7 @@ class CreateFighters < ActiveRecord::Migration[5.1]
       t.integer :age
       t.integer :height
       t.integer :reach
+      t.integer :elo
 
       t.timestamps
     end

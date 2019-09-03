@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20190902191737) do
     t.integer "age"
     t.integer "height"
     t.integer "reach"
+    t.integer "elo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
