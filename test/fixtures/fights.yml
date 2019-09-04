@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2019-09-04
+  first_fighter: 1
+  second_fighter: 1
+  weight_class: 
+  rounds: 
+  victor: 1
+  method: 1
+  ending_round: 
+
+two:
+  date: 2019-09-04
+  first_fighter: 1
+  second_fighter: 1
+  weight_class: 
+  rounds: 
+  victor: 1
+  method: 1
+  ending_round: 
