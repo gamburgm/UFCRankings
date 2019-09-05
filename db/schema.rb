@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190904030619) do
+ActiveRecord::Schema.define(version: 20190905001156) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "events", force: :cascade do |t|
+    t.integer "type"
+    t.string "name"
+    t.date "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "fighters", force: :cascade do |t|
     t.string "first_name"
@@ -33,4 +41,32 @@ ActiveRecord::Schema.define(version: 20190904030619) do
     t.index ["first_name", "last_name", "debut"], name: "index_fighters_on_first_name_and_last_name_and_debut", unique: true
   end
 
+  create_table "fights", force: :cascade do |t|
+    t.date "date"
+    t.integer "event_id"
+    t.integer "first_fighter_id"
+    t.integer "second_fighter_id"
+    t.integer "weight_class_id"
+    t.integer "rounds"
+    t.integer "victor_id"
+    t.integer "method"
+    t.integer "ending_round"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "weight_classes", force: :cascade do |t|
+    t.string "name"
+    t.integer "weight"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "champion_id"
+    t.integer "interim_champion_id"
+  end
+
+  add_foreign_key "fights", "events"
+  add_foreign_key "fights", "fighters", column: "first_fighter_id"
+  add_foreign_key "fights", "fighters", column: "second_fighter_id"
+  add_foreign_key "fights", "fighters", column: "victor_id"
+  add_foreign_key "fights", "weight_classes"
 end

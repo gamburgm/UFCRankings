@@ -11,7 +11,7 @@ class UFCScraper
 
   include Capybara::DSL
 
-  def scrape
+  def self.scrape_athletes
     visit '/athletes/all'
 
     iterate_button('//a[@rel="next"]')
@@ -26,19 +26,15 @@ class UFCScraper
     end
   end
 
-  def scrape_athlete(href)
+  def self.scrape_athlete(href)
     visit href
 
-    iterate_button('//a[@rel="next"]')
-
     doc = Nokogiri::HTML.parse(page.source)
-    fights = doc.xpath('//*[@class="c-card-event--athlete-results__headline"]')
-    fights.each { |f| puts f.text }
   end
 
   private
 
-  def iterate_button(xpath)
+  def self.iterate_button(xpath)
     begin
       while true do
         find(:xpath, xpath).click
