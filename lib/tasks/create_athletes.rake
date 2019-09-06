@@ -1,6 +1,3 @@
-require 'csv'
-require 'pry'
-
 desc "scrape for all athletes ever present in the ufc"
 task create_athletes: :environment do
   UFCScraper.scrape_athletes

@@ -11,7 +11,7 @@ class UFCScraper
 
   include Capybara::DSL
 
-  def self.scrape_athletes
+  def scrape_athletes
     visit '/athletes/all'
 
     iterate_button('//a[@rel="next"]')
@@ -26,15 +26,34 @@ class UFCScraper
     end
   end
 
-  def self.scrape_athlete(href)
+  def scrape_athlete(href)
     visit href
 
     doc = Nokogiri::HTML.parse(page.source)
+
+    fighter_props = {}
+
+    first_name, last_name = doc.xpath('//div[@class="field field-name-name"]').text.split(' ')
+	  fighter_props[:first_name] = first_name
+	  fighter_props[:last_name]  = last_name
+	  fighter_props[:debut]      = Date.parse(get_content_from_label(doc, 'Octagon Debut'))
+	  fighter_props[:active]     = fighter_active?(get_content_from_label(doc, 'Status'))
+    fighter_props[:age]        = get_content_from_label(doc, 'Age').to_i
+    fighter_props[:height]     = get_content_from_label(doc, 'Height').to_i 
+    fighter_props[:reach]      = get_content_from_label(doc, 'Reach').to_i
+#    debut = Date.parse(doc.xpath("//*/text()[normalize-space(.)='Octagon Debut']/parent::*/parent::*/div[2]").text.strip)
+    
+#    status = fighter_active?(doc.xpath("//*/text()[normalize-space(.)='Status']/parent::*/parent::*/div[2]").text)
+    Fighter.create!(fighter_props)
   end
 
   private
 
-  def self.iterate_button(xpath)
+  def fighter_active?(text)
+    text.strip == "Active"
+  end
+
+  def iterate_button(xpath)
     begin
       while true do
         find(:xpath, xpath).click
@@ -42,5 +61,9 @@ class UFCScraper
       end
     rescue
     end
+  end
+
+  def get_content_from_label(doc, text)
+    doc.xpath("//*/text()[normalize-space(.)='#{text}']/parent::*/parent::*/div[2]").text
   end
 end
