@@ -1,6 +1,6 @@
 desc "scrape for all athletes ever present in the ufc"
 task create_athletes: :environment do
-  UFCScraper.scrape_athletes
+  UFCScraper.new.scrape_athletes
 end
 
 desc "create the weightclasses using a csv"
