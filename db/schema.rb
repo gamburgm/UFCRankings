@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190905001156) do
+ActiveRecord::Schema.define(version: 20190908133030) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,19 +26,19 @@ ActiveRecord::Schema.define(version: 20190905001156) do
   create_table "fighters", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
-    t.string "nickname", default: ""
     t.date "debut"
     t.integer "wins", default: 0
     t.integer "losses", default: 0
     t.integer "draws", default: 0
     t.boolean "active", default: false
     t.integer "age"
-    t.integer "height"
-    t.integer "reach"
-    t.integer "elo"
+    t.decimal "height"
+    t.decimal "reach"
+    t.decimal "elo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["first_name", "last_name", "debut"], name: "index_fighters_on_first_name_and_last_name_and_debut", unique: true
+    t.string "href"
+    t.index ["href"], name: "index_fighters_on_href", unique: true
   end
 
   create_table "fights", force: :cascade do |t|
@@ -47,10 +47,7 @@ ActiveRecord::Schema.define(version: 20190905001156) do
     t.integer "first_fighter_id"
     t.integer "second_fighter_id"
     t.integer "weight_class_id"
-    t.integer "rounds"
     t.integer "victor_id"
-    t.integer "method"
-    t.integer "ending_round"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

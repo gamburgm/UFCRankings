@@ -5,8 +5,9 @@ PREFIX = 'https://www.ufc.com'
 class UFCScraper
   Capybara.configure do |c|
     c.run_server = false
-    c.default_driver = :selenium_chrome
+    c.default_driver = :selenium#_chrome
     c.app_host = PREFIX
+    c.default_selector = :xpath
   end
 
   include Capybara::DSL
@@ -21,6 +22,8 @@ class UFCScraper
     names  = doc.xpath('//div[@class="c-listing-athlete-flipcard__front"]//span[@class="c-listing-athlete__name"]')
     results = names.zip(a_tags).to_h
 
+    puts results.length
+
     results.each do |k, v|
       scrape_athlete(v[:href])
     end
@@ -32,7 +35,9 @@ class UFCScraper
     doc = Nokogiri::HTML.parse(page.source)
 
     fighter_props = {}
+    fighter_props[:href] = href
 
+    # this doesn't work. What happens when somebody has a middle name? Do I add a middle name field? Or just do first and last?
     first_name, last_name = doc.xpath('//div[@class="field field-name-name"]').text.split(' ')
 	  fighter_props[:first_name] = first_name
 	  fighter_props[:last_name]  = last_name
@@ -77,10 +82,16 @@ class UFCScraper
   def iterate_button(xpath)
     begin
       while true do
-        find(:xpath, xpath).click
-        sleep 2
+        element = find(xpath, wait: 10)
+        sleep 1
+        element.click
+        # find(xpath, wait: 100).click
+        # find(:xpath, xpath).click
+        # sleep 5
       end
-    rescue
+    rescue Selenium::WebDriver::Error::StaleElementReferenceError, Selenium::WebDriver::Error::ElementClickInterceptedError
+      puts "stale element reference error"
+      retry
     end
   end
 
