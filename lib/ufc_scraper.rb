@@ -18,9 +18,13 @@ class UFCScraper
     iterate_button('//a[@rel="next"]')
 
     doc = Nokogiri::HTML.parse(page.source)
+    puts "completed parsing"
     a_tags = doc.xpath('//*[@class="l-flex__item"]//a[@class="e-button--black "]')
+    puts "completed a tags"
     names  = doc.xpath('//div[@class="c-listing-athlete-flipcard__front"]//span[@class="c-listing-athlete__name"]')
+    puts "completed names"
     results = names.zip(a_tags).to_h
+    puts "completed zipping"
 
     puts results.length
 
@@ -38,14 +42,15 @@ class UFCScraper
     fighter_props[:href] = href
 
     # this doesn't work. What happens when somebody has a middle name? Do I add a middle name field? Or just do first and last?
-    first_name, last_name = doc.xpath('//div[@class="field field-name-name"]').text.split(' ')
-	  fighter_props[:first_name] = first_name
-	  fighter_props[:last_name]  = last_name
+    name_list = doc.xpath('//div[@class="field field-name-name"]').text.split(' ')
+    fighter_props[:first_name] = name_list.first
+    fighter_props[:last_name]  = name_list.last
+    # could have a middle name where I join all but the first and last
 	  fighter_props[:debut]      = Date.parse(get_content_from_label(doc, 'Octagon Debut'))
 	  fighter_props[:active]     = fighter_active?(get_content_from_label(doc, 'Status'))
     fighter_props[:age]        = get_content_from_label(doc, 'Age').to_i
-    fighter_props[:height]     = get_content_from_label(doc, 'Height').to_i 
-    fighter_props[:reach]      = get_content_from_label(doc, 'Reach').to_i
+    fighter_props[:height]     = get_content_from_label(doc, 'Height').to_f
+    fighter_props[:reach]      = get_content_from_label(doc, 'Reach').to_f
 
     Fighter.create!(fighter_props)
   end
@@ -53,24 +58,12 @@ class UFCScraper
   # ufc uses 'fmid' to mark different fights, it's an id that they use presumably
   def scrape_fight(event, fmid)
     # visit event.to_href + '#' fmid.to_s
-
-    # doc = Nokogiri::HTML.parse(page.source)
-
     first_name, last_name = doc.xpath('//h2[@class="field---name-name name_given red"]').text.strip.split(' ')
     first_fighter = Fighter.where(first_name: first_name, last_name: last_name)
     first_name, last_name = doc.xpath('//h2[@class="field---name-name name_given blue"]').text.strip.split(' ')
     second_fighter = Fighter.where(first_name: first_name, last_name: last_name)
-    # looks like you can't determine the weight class from the fight page itself and must retrieve it from the event page.
-    
-    # ending_round = doc.xpath('//*[@class="e-t5 round"]').text.to_i
-
     # strat for finding winning fighter: find the div for the winning fighter, then go up divs until you find the href of the winning athlete
     # should I store the href for each athlete? That's probably the best way to have a unique identifier even, right?
-    
-    # method = 
-
-    # method doesn't matter, just delete it, right?
-    # neither does ending round
   end
 
   private
@@ -85,13 +78,15 @@ class UFCScraper
         element = find(xpath, wait: 10)
         sleep 1
         element.click
-        # find(xpath, wait: 100).click
-        # find(:xpath, xpath).click
-        # sleep 5
       end
-    rescue Selenium::WebDriver::Error::StaleElementReferenceError, Selenium::WebDriver::Error::ElementClickInterceptedError
+    rescue Selenium::WebDriver::Error::StaleElementReferenceError
       puts "stale element reference error"
       retry
+    rescue Selenium::WebDriver::Error::ElementClickInterceptedError
+      puts "element intercepted by other one"
+      retry
+    rescue Capybara::ElementNotFound
+      return
     end
   end
 
