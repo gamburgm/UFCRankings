@@ -18,18 +18,28 @@ class UFCScraper
     iterate_button('//a[@rel="next"]')
 
     doc = Nokogiri::HTML.parse(page.source)
-    puts "completed parsing"
     a_tags = doc.xpath('//*[@class="l-flex__item"]//a[@class="e-button--black "]')
-    puts "completed a tags"
     names  = doc.xpath('//div[@class="c-listing-athlete-flipcard__front"]//span[@class="c-listing-athlete__name"]')
-    puts "completed names"
     results = names.zip(a_tags).to_h
-    puts "completed zipping"
 
     puts results.length
 
     results.each do |k, v|
       scrape_athlete(v[:href])
+    end
+  end
+
+  def scrape_events
+    visit '/events#events-list-past'
+
+    iterate_button('//*[contains(@class, "view-display-id-past")]//a[@rel="next"]')
+
+    doc = Nokogiri::HTML.parse(page.source)
+
+    events = doc.xpath('//*[@id="events-list-past"]//article[@class="c-card-event--result"]//div[@class="c-card-event--result__header"]//a')
+
+    events.each do |event|
+      scrape_event(event)
     end
   end
 
@@ -53,6 +63,19 @@ class UFCScraper
     fighter_props[:reach]      = get_content_from_label(doc, 'Reach').to_f
 
     Fighter.create!(fighter_props)
+  end
+
+  def scrape_event(href)
+    visit href
+
+    doc = Nokogiri::HTML.parse(page.source)
+    # this includes **all** fights, including prelim and early prelim fights
+    fights = doc.xpath('//*[@class="c-listing-fight"]')
+
+    fights.each do |fight|
+      # don't know if this syntax actually works
+      scrape_fight(href, fight["data-fmid"])
+    end
   end
 
   # ufc uses 'fmid' to mark different fights, it's an id that they use presumably
