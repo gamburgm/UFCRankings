@@ -12,5 +12,6 @@ end
 
 desc "scrape for all events and fights that have occurred in the ufc"
 task create_events_and_fights: :environment do
+  UFCScraper.new.scrape_fight('/event/ufc-242', '7934')
 end
 

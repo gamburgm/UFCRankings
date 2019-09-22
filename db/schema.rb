@@ -10,22 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190908133030) do
+ActiveRecord::Schema.define(version: 20190922210026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "events", force: :cascade do |t|
-    t.integer "type"
     t.string "name"
     t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "href"
   end
 
   create_table "fighters", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
     t.date "debut"
     t.integer "wins", default: 0
     t.integer "losses", default: 0
@@ -38,6 +36,7 @@ ActiveRecord::Schema.define(version: 20190908133030) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "href"
+    t.string "name"
     t.index ["href"], name: "index_fighters_on_href", unique: true
   end
 
@@ -50,6 +49,7 @@ ActiveRecord::Schema.define(version: 20190908133030) do
     t.integer "victor_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "fight_id"
   end
 
   create_table "weight_classes", force: :cascade do |t|
@@ -57,8 +57,6 @@ ActiveRecord::Schema.define(version: 20190908133030) do
     t.integer "weight"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "champion_id"
-    t.integer "interim_champion_id"
   end
 
   add_foreign_key "fights", "events"
