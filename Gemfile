@@ -33,7 +33,7 @@ group :development, :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara',           '~> 3.28'
   gem 'selenium-webdriver', '~> 3.5'
-  gem 'nokogiri',           '~> 1.10'
+  gem 'nokogiri',           '~> 1.11'
   gem 'httparty',           '~> 0.17.0'
   gem 'pry',  	            '~> 0.12.2'
 end
