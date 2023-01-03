@@ -34,7 +34,7 @@ group :development, :test do
   gem 'capybara',           '~> 3.28'
   gem 'selenium-webdriver', '~> 3.5'
   gem 'nokogiri',           '~> 1.10'
-  gem 'httparty',           '~> 0.17.0'
+  gem 'httparty',           '~> 0.21.0'
   gem 'pry',  	            '~> 0.12.2'
 end
 
